@@ -1,23 +1,37 @@
 module Euler
   module Solution2
-    @previous_number = 1
-    @accumulator     = 0
-    @max             = 4_000_000
+    @previous    = 1
+    @current     = 1
+    @accumulator = 0
+    @max         = 4_000_000
 
-    def self.answer
-      accumulate
-    end
+    class << self
+      def answer
+        accumulate
+      end
 
-    private
+      private
 
-    def self.accumulate(current_number = 1)
-      return @accumulator if current_number >= @max
+      def accumulate
+        return @accumulator if at_max?
 
-      @accumulator += current_number if current_number.even?
+        add_if_even
+        advance_fibonacci_sequence
 
-      current_number, @previous_number = current_number + @previous_number, current_number
+        accumulate
+      end
 
-      accumulate(current_number)
+      def add_if_even
+        @accumulator += @current if @current.even?
+      end
+
+      def advance_fibonacci_sequence
+        @current, @previous = @current + @previous, @current
+      end
+
+      def at_max?
+        @current >= @max
+      end
     end
   end
 end
